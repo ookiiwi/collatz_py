@@ -6,8 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "collatz_py"
 version="0.0.1"
 dependencies = [
-    "pyglet",
-    "imgui[pyglet]",
+    "opencv-python",
     "numpy"
 ]
 license = {text = "MIT"}
