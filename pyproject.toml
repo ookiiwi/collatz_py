@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "collatz_py"
+version="0.0.1"
+dependencies = [
+    "pyglet",
+    "imgui[pyglet]",
+    "numpy"
+]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3"
+]
+
+[project.gui-scripts]
+collatz_py = "collatz_py:main"
