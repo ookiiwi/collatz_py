@@ -1,6 +1,6 @@
 # Collatz_py
 
-Visualization of the Collatz (aka Syracuse) conjecture in python.
+Visualization of the Collatz (aka Syracuse) conjecture in python and outputs an image.
 
 ## Installation
 ```sh
