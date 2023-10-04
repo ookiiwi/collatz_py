@@ -135,9 +135,9 @@ def computeTree(n, callback):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-n', default=INITIAL_VALUE, type=int)
+    parser.add_argument('-n', default=INITIAL_VALUE, type=int, help='Highest value to compute branches from', metavar='<value>')
     parser.add_argument('-ns', '--noshow', action='store_true', help='Wether to show the image or not')
-    parser.add_argument('-o', '--out', help='Destination folder for the produced image')
+    parser.add_argument('-o', '--out', help='Destination folder for the produced image', metavar='<path>')
     args = parser.parse_args()
 
     n = args.n
