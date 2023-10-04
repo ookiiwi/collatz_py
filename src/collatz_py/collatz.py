@@ -1,17 +1,20 @@
 from .util import Point
 import cv2
 import numpy as np
+import argparse
+import sys
+from os import path
 
 START_ANGLE             = 180
 INITIAL_ANGLE           = 8
 INITIAL_VALUE           = 1000
+MAX_VALUE               = 10000
 DEFAULT_HEIGHT          = 800
 DEFAULT_WIDTH           = 600
 COLORS_NUMBER           = 3
 BOTTOM_PADDING          = 10
 ADJUSTMENT_THRESHOLD    = 200
 
-n = INITIAL_VALUE
 angle = INITIAL_ANGLE
 halfAngle = angle/2
 
@@ -118,7 +121,7 @@ def drawBranch(values):
 
         stroke.translate(10) # really slow
 
-def main():
+def computeTree(n, callback):
     # draw branches
     for i in range(2, n+1):
         branch = computeBranch(i)
@@ -127,8 +130,37 @@ def main():
         drawBranch(branch)
         del branch
 
-    imgName= f"Collatz_{n}"
+        if callback is not None:
+            callback(i)
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-n', default=INITIAL_VALUE, type=int)
+    parser.add_argument('-ns', '--noshow', action='store_true', help='Wether to show the image or not')
+    parser.add_argument('-o', '--out', help='Destination folder for the produced image')
+    args = parser.parse_args()
+
+    n = args.n
+    show_img = not args.noshow
+    img_name= f"Collatz_{n}"
+    img_dest = args.out
+
+    if n > MAX_VALUE:
+        print(f'Value must be less or equal to {MAX_VALUE}')
+        sys.exit(1)
+
+    progress_step = n // 100
+    def computeTreeCallback(i):
+        if (i%progress_step == 0):
+            print('.', end='', flush=True)
+
+    computeTree(n, computeTreeCallback)
+    print()
+
+    if show_img:
+        cv2.imshow(img_name.replace('_', ' '), img)
+        cv2.waitKey(0)
+
+    if img_dest:
+        cv2.imwrite(path.join(img_dest, f'{img_name.lower()}.png'), img)
     
-    cv2.imshow(imgName.replace('_', ' '), img)
-    cv2.waitKey(0)
-    cv2.imwrite(f'{imgName.lower()}.png', img)
